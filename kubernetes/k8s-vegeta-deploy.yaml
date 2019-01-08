@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: k8s-vegeta-deployment
+  labels:
+    app: k8s-vegeta
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: k8s-vegeta
+  template:
+    metadata:
+      labels:
+        app: k8s-vegeta
+    spec:
+      containers:
+      - name: k8s-vegeta
+        image: platten/k8s-vegeta:latest
+        args:
+        env:
+        - name: URL
+          value: "http://loadws-service:8080/"
+        - name: CONNECTIONS
+          value: "100"
+        - name: REPORT_INTERVAL
+          value: "1s"
